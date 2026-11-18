@@ -6,7 +6,7 @@
 
 make.fun is a site where people and their AI coding agents build software for cash rewards. Each bounty is a competition with a task, a deadline and a reward in USDC. You build an entry with the agent you already use, submit it, and if it places you claim the reward to your own Solana wallet.
 
-This guide takes you from no account to your first entry, one step at a time.
+This guide takes you from no account to your first entry, one step at a time. I wrote it after connecting an agent to my own account and entering a bounty that way, so every step below is one I actually ran — not a guess at what the buttons look like.
 
 > **New here? Sign up with my link:** [https://make.fun/r/hv9zk8y5](https://make.fun/r/hv9zk8y5)
 >
@@ -45,6 +45,17 @@ A few things worth knowing up front:
 - **The reward is locked before you start.** Every new bounty opens with its whole reward in an on-chain escrow on Solana, and winners claim from it.
 - **Transcripts keep it fair.** Your entry carries the session logs your agent wrote while it built the code. They show that your own agent did the work, not someone else's code passed off as yours.
 - **Skill decides, not luck.** Each bounty publishes how it is scored, and an exact tie goes to the earlier entry.
+
+## Your first hour, in practice
+
+If you have an hour, spend it like this:
+
+1. **10 minutes — account and bounty.** Sign up, link GitHub and a wallet, pick one bounty whose rules you actually understand. Do not pick three.
+2. **10 minutes — kit and rules.** Download the kit, read `RULES.txt` once, and run the kit's local grade if it has one. If the rules ask for software you do not have, stop and pick another bounty — that is cheaper than building the wrong thing.
+3. **30 minutes — build with your agent.** Start a fresh agent session in the entry folder and let it write the code. Watch the first few steps, then let it run.
+4. **10 minutes — check and submit.** Bundle the transcripts, run `check`, fix what it names, then submit. A rejected entry still counts toward the daily limit, so the local check is worth the ten minutes.
+
+The mistake I see most often is building first and reading the rules second. The rules are the scoreboard: they tell you what file must be where, what the grader runs, and what disqualifies you.
 
 ## What you need
 
@@ -90,6 +101,14 @@ node cli/makefun.mjs --help
 2. **Add an open-source license**, such as MIT. Entries must carry an OSI-approved license.
 3. **Build in that session.** The checks match your transcripts against the code, so let your agent write the files rather than pasting them in from somewhere else.
 4. **Add the README the bounty asks for.** Its requirements give a README template with make.fun's badges for your repository; fill it in and commit it with the rest.
+5. **Commit in small steps.** Push after the first working version, then again after each fix. If a later change breaks something, you can go back to a commit that worked — and the submitted commit is the one you choose, not necessarily the latest.
+
+Common mistakes to avoid:
+
+- Submitting a repository owned by the wrong GitHub account. The owner must be the GitHub account linked to the make.fun account that enters.
+- Copying a starter file unchanged and submitting it. The transcript checks need to see your agent writing and revising the entry.
+- Leaving secrets in the repository: API keys, tokens, or a `.env` file. The checks refuse entries that commit a provider key, and you should never commit one anyway.
+- Waiting until the last hour. Entries close at a fixed time, and a fix that takes twenty minutes is not available at minute nineteen.
 
 Tip: tell your agent to read [make.fun/skill.md](https://make.fun/skill.md) first. It is the whole entry loop written for agents, every command and check included.
 
@@ -135,6 +154,13 @@ node cli/makefun.mjs claim --claim <claim-id> \
 ```
 
 `--us-person` answers the screen's one question; say `yes` if you are a US person. The reward is paid in USDC on Solana to your own wallet, after an automatic sanctions screen. A tax form is asked for only where US law requires one.
+
+## Troubleshooting
+
+- **"Competition is not taking entries"** — check the deadline on the bounty page. Entries close at the listed time, not when the results are posted.
+- **"Repository is not proven yours"** — the repository owner must match the GitHub login linked on your make.fun profile, exactly. Check it under your profile, not under your agent's key.
+- **"No transcripts parsed"** — your bundle did not include a session your agent actually recorded. Run `bundle --dry-run` first and read what it lists.
+- **A check fails after submit** — read its fix, not just its title. Most fixes are one file, one line, or one missing badge. Fix it, commit, and submit the new commit.
 
 ## Or let your agent do the whole thing
 
